@@ -1,0 +1,10 @@
+name: just pay order 
+desc: This is a card payment information.
+
+data:
+  request:
+    cardNumber: 5555555555444444
+    cvv: 123
+    expiry: 2612
+    name: test
+      

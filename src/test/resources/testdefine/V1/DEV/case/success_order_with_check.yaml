@@ -1,0 +1,50 @@
+import: test_order_success_simple.yaml
+name: pay order 
+desc: This is a normal share
+
+check:
+  HTTPCode: "200"
+  
+  value:
+    - root:
+        - profitType: share
+          reference: "@request.reference"
+          orderId: ^333
+          state: processing
+          currency: CAD
+    - products:
+        - result: pending
+          createdAt: now
+ 
+  assert:
+      mustExist:
+        - path: products
+          exist: 
+            - productId
+            
+      mustNotExist:
+        - items:
+            - errorCode
+        - path: products
+          items: 
+            - stock
+            
+  dbcheck:
+    - name: check_order
+      rule: order.yaml
+    - path: products
+      name: check_product
+      rule: product.yaml
+
+  group:
+    - wait: 3s
+      dbcheck:
+        name: check_order
+        rule: order_ship.yaml
+      callback: callback_ship.yaml
+
+    - wait: 3s
+      dbcheck:
+        name: check_order
+        rule: order_complete.yaml
+      callback: callback_complete.yaml

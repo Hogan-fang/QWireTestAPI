@@ -1,0 +1,50 @@
+name: normal
+desc: This is a normal share
+
+datafile:
+  request:
+    order.yaml: ""
+    products.yaml: "products"
+  template: template.yaml
+check:
+  HTTPCode: "200"
+
+  value:
+    profitType: share
+    profitReference: "@request.profitReference"
+    state: processing
+    currency: CA
+
+  dbcheck:
+    name: check_order
+    rule: order.yaml
+
+  products:
+    value:
+      result:
+        - pending
+      createdAt: now
+
+    notExist:
+      - failReason
+      - finishedAt
+
+    exist:
+      - profitDetailGatewayReference
+
+    dbcheck:
+      name: check_order
+      rule: order.yaml
+
+  group:
+    - wait: 3s
+      dbcheck:
+        name: check_group
+        rule: group.yaml
+      callback: callback.yaml
+
+    - wait: 3s
+      dbcheck:
+        name: check_group
+        rule: group.yaml
+      callback: callback.yaml

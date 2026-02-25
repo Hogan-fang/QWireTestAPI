@@ -1,0 +1,17 @@
+# Rules DSL mode (new style)
+# This example validates first row and also demonstrates unordered rowset assertions.
+rules:
+  - field: status
+    row: 0
+    eq: "pending"
+
+  - field: amount
+    row: 0
+    regex: "^\\d+(\\.\\d+)?$"
+
+unordered: true
+subset: true
+matchBy: id
+expectedRows:
+  - id: "@id"
+    status: "pending"

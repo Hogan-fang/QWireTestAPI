@@ -1,0 +1,8 @@
+# Legacy compact mode (old style, still supported)
+# field: expectedValue
+id: "@id"
+reference: "@request.reference"
+state: "processing"
+currency: "CAD"
+created_at: "@skip"
+updated_at: "@skip"

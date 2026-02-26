@@ -3,6 +3,7 @@
     <test name="Core Tests">
         <classes>
             <class name="com.qwireapi.AppTest"/>
+            <class name="com.qwireapi.assertion.IsUuidV4FunctionTest"/>
         </classes>
     </test>
 </suite>

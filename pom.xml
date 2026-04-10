@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.qwireapi</groupId>
-    <artifactId>qwireapi</artifactId>
+    <artifactId>qwiretestapi</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>QwireAPI</name>
+    <name>QwireTestAPI</name>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

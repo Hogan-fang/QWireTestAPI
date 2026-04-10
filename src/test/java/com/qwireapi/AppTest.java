@@ -7,6 +7,6 @@ public class AppTest {
     @Test
     public void shouldReturnProjectName() {
         App app = new App();
-        Assert.assertEquals(app.getProjectName(), "QwireAPI");
+        Assert.assertEquals(app.getProjectName(), "QwireTestAPI");
     }
 }

@@ -1,0 +1,84 @@
+profile:
+  name: mock_order_payment_callback_db_30s
+  title: Mock order payment should callback, persist DB rows, and update product status after 30 seconds
+  type: single
+  module: mock
+  subModule: order
+  feature: order_payment
+  priority: P0
+  status: ready
+  description: 创建 Mock 订单支付后，校验成功回调、数据库订单与商品记录，以及 30 秒后的商品状态更新与回调事件。
+  preconditions:
+    - Mock order service is running at the configured target endpoint.
+    - Mock callback service is running and the framework can capture callback payloads.
+    - MySQL is reachable and contains tables v2_orders and v2_order_products.
+  testCategory:
+    - integration
+    - callback
+    - db
+    - async-status
+  version: "1.0.0"
+
+data:
+  ref:
+    - file: ../data/mock_order_payment_request.yaml
+      to: request
+
+check:
+  HTTPCode:
+    assertion: "201"
+
+  response:
+    assertion:
+      reference: "$ref(request.reference)"
+      name: "$ref(request.name)"
+      amount: "$ref(request.amount)"
+      currency: "$ref(request.currency)"
+      status: "SUCCESS"
+      orderId: "$regex(^PX\\d+$)"
+      cardNumber: "$regex(^\\d{6}\\*+\\d{4}$)"
+      failReason: "$notExists"
+      products[0].productId: "$ref(request.products[0].productId)"
+      products[0].count: "$ref(request.products[0].count)"
+      products[0].spec: "$ref(request.products[0].spec)"
+      products[0].status: "PROCESSING"
+    params:
+      source: response.body
+
+  dbCheck:
+    - name: order_created
+      assertion: "../check/mock_order_db_created.yaml"
+      params:
+        sql: "select reference, order_id, name, callback_url, amount, currency, status, failReason, card_number from v2_orders where reference='@request.reference' limit 1"
+    - name: product_created
+      assertion: "../check/mock_order_product_processing.yaml"
+      params:
+        sql: "select p.product_id, p.count, p.spec, p.status from v2_order_products p join v2_orders o on p.order_id = o.id where o.reference='@request.reference' order by p.id limit 1"
+
+  callbackCheck:
+    assertion: "../check/mock_order_callback_success.yaml"
+    params:
+      source: callback.payload
+      timeUnit: second
+      wait: 10
+      interval: 2
+
+  bundle:
+    params:
+      timeUnit: second
+      wait: 35
+      interval: 5
+    steps:
+      - description: 30 秒后商品状态应从 PROCESSING 变为 SHIPPED，并触发 ORDER_SHIPPED 回调
+        dbCheck:
+          name: product_shipped_after_30s
+          assertion: "../check/mock_order_product_shipped_30s.yaml"
+          params:
+            sql: "select o.status as order_status, p.product_id, p.status as product_status from v2_order_products p join v2_orders o on p.order_id = o.id where o.reference='@request.reference' order by p.id limit 1"
+        callbackCheck:
+          assertion: "../check/mock_order_callback_shipped_30s.yaml"
+          params:
+            source: callback.payload
+            timeUnit: second
+            wait: 35
+            interval: 5

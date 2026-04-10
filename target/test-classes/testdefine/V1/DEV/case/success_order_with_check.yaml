@@ -1,9 +1,18 @@
-import: test_order_success_simple.yaml
+import: frag_order_data.yaml
 name: pay order 
 desc: This is a normal share
 
 check:
   HTTPCode: "200"
+
+  # callbackCheck example (flat JSON fields only in current implementation)
+  # callbackCheck:
+  #   id: "@id"
+  #   status: "SUCCESS"
+  #   amount: "100"
+  #
+  # callbackCheck from external file (resolved by configDir):
+  # callbackCheck: callback_expect.json
   
   value:
     - root:
@@ -31,10 +40,12 @@ check:
             
   dbcheck:
     - name: check_order
-      rule: order.yaml
+      sql: "select id, reference, state, currency from orders where reference='@request.reference' order by id desc limit 1"
+      rule: db_order_legacy_rule.yaml
     - path: products
       name: check_product
-      rule: product.yaml
+      sql: "select id, amount, status from order_items where order_id='@id'"
+      rule: db_product_rules_rule.yaml
 
   group:
     - wait: 3s

@@ -1,4 +1,4 @@
-# QwireAPI: Customized Assertion Function Extension Guide
+# QwireTestAPI: Customized Assertion Function Extension Guide
 
 This document explains how to extend assertion functions used by `QwireCore` unified assertions, so API projects can add custom checks like `$startsWith(...)`, `$isUuidV4()`, `$isBusinessDay(...)`.
 

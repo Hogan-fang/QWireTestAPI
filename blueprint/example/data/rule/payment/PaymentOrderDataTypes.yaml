@@ -1,0 +1,84 @@
+name: PaymentOrderDataTypes
+version: "1.0"
+description: 本项目订单支付接口测试数据类型定义，参照 TestDataRule.json 并补充支付域复合类型。
+
+
+dataTypes:
+  PAYMENT_REFERENCE:
+    kind: scalar
+    generator: GENERATE_NAME
+    range: ["24"]
+    prefix: "PAY-REF-"
+
+  PAYMENT_ORDER_NAME:
+    kind: scalar
+    generator: GENERATE_NAME
+    range: ["12"]
+    prefix: "PAY-ORDER-"
+
+  PAYMENT_CALLBACK:
+    kind: scalar
+    generator: SET
+    valid:
+      - "http://127.0.0.1:8100/callback"
+
+  PAYMENT_AMOUNT:
+    kind: scalar
+    baseType: AMOUNT
+    valid:
+      - "0.01"
+      - "1.0"
+      - "58.0"
+      - "88.0"
+      - "168.5"
+      - "288.0"
+      - "10000"
+    invalid:
+      - "0"
+      - "-1"
+      - "0.333"
+      - "10000.001"
+      - "xx"
+
+  PAYMENT_CURRENCY:
+    kind: scalar
+    generator: SET
+    valid:
+      - "USD"
+    invalid:
+      - ""
+      - "CNY"
+      - "US"
+
+  CARD_INFO:
+    kind: composite
+    valid:
+      - cardNumber: "5555555555554444"
+        cvv: "123"
+        expiry: "12/28"
+      - cardNumber: "44111111111111111"
+        cvv: "334"
+        expiry: "12/28"
+    invalid:
+      - cardNumber: "41111111111111"
+        cvv: "123"
+        expiry: "12/28"
+
+  PRODUCT_SELECTION:
+    kind: collection
+    itemShape:
+      - productId
+      - count
+      - spec
+    valid:
+      sourceFiles:
+        - "$home/data/datafile/payment/payment_products_single.yaml"
+        - "$home/data/datafile/payment/payment_products_multiple.yaml"
+        - "$home/data/datafile/payment/payment_products_grouped.yaml"
+    invalid:
+      - productId: "UNKNOWN-SKU"
+        count: 1
+        spec: "invalid"
+      - productId: "PAY-SKU-01"
+        count: 0
+        spec: "xs-83"

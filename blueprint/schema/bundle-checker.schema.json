@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bundle-checker.schema.json",
+  "title": "BundleCheckerValue",
+  "description": "Payload contract for the bundle checker node.",
+  "type": "object",
+  "properties": {
+    "params": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "step": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/BundleStep"
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "step"
+  ],
+  "additionalProperties": true,
+  "$defs": {
+    "BundleStep": {
+      "type": "object",
+      "description": "One executable step inside a bundle checker.",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "timeUnit": {
+          "type": "string"
+        },
+        "wait": {
+          "type": [
+            "string",
+            "number",
+            "integer",
+            "boolean",
+            "null",
+            "array",
+            "object"
+          ]
+        },
+        "interval": {
+          "type": [
+            "string",
+            "number",
+            "integer",
+            "boolean",
+            "null",
+            "array",
+            "object"
+          ]
+        },
+        "HTTPCode": {
+          "$ref": "http-checker.schema.json"
+        },
+        "response": {
+          "$ref": "response-checker.schema.json"
+        },
+        "dbCheck": {
+          "$ref": "db-checker.schema.json"
+        },
+        "dbcheck": {
+          "$ref": "db-checker.schema.json"
+        },
+        "callbackCheck": {
+          "$ref": "callback-checker.schema.json"
+        },
+        "callback": {
+          "$ref": "callback-checker.schema.json"
+        },
+        "bundle": {
+          "$ref": "bundle-checker.schema.json"
+        }
+      },
+      "additionalProperties": true,
+      "minProperties": 1
+    }
+  }
+}

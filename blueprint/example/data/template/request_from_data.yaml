@@ -1,0 +1,12 @@
+request:
+  amount: {{data.request.amount}}
+  currency: "{{data.request.currency}}"
+  source: "{{data.request.source}}"
+  note: "{{data.request.note}}"
+  amountText: "AMT-{{data.request.amount}}"
+  products:
+    items:
+{{#each data.request.products.items}}
+      - productId: "{{productId}}"
+        quantity: {{quantity}}
+{{/each}}

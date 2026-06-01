@@ -1,0 +1,74 @@
+profile:
+  name: bundle_example
+  title: Bundle checker example
+  type: single
+  module: checker
+  feature: bundle
+  priority: P1
+  status: ready
+  description: 最小数据的 Bundle 检查器示例，展示 bundle 参数与多检查器步骤编排。
+
+data:
+  value:
+    request:
+      reference: "BD-REF-001"
+      name: "Bundle Example"
+      amount: 1
+      currency: "USD"
+      callback: "http://127.0.0.1:8100/callback"
+
+check:
+  bundle:
+    params:
+      timeUnit: second
+      wait: 15
+      interval: 5
+    step:
+      - description: HTTP checker step
+        timeUnit: second
+        wait: 1
+        interval: 1
+        HTTPCode: "200"
+      - description: Response checker step
+        timeUnit: second
+        wait: 1
+        interval: 1
+        response:
+          name: response_full_example
+          assertion:
+            $ref: ../../check/payment/payment_response_assertions.yaml#single_success
+          params:
+            source: response.body
+          mergeMode: FULL_MERGE
+          source: response.body
+      - description: DB checker step
+        timeUnit: second
+        wait: 1
+        interval: 1
+        dbCheck:
+          name: db_table_full_example
+          sql: "select reference, amount, currency from v2_orders where reference='@request.reference'"
+          query: "select reference, amount, currency from v2_orders where reference='@request.reference'"
+          sqlFile: ../../check/payment/payment_db_sql.yaml
+          sqlRef: order_by_reference
+          assertion:
+            $ref: ../../check/payment/payment_db_assertions.yaml#order_success_created
+          path: rows
+          key: reference
+          params:
+            source: response.body
+      - description: Callback checker step
+        timeUnit: second
+        wait: 10
+        interval: 2
+        callbackCheck:
+          name: callback_full_example
+          assertion:
+            $ref: ../../check/payment/payment_callback_assertions.yaml#order_success
+          params:
+            source: callback.payload
+          mergeMode: FULL_MERGE
+          source: callback.payload
+          timeUnit: second
+          wait: 10
+          interval: 2

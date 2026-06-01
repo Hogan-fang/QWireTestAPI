@@ -1,0 +1,521 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "checker.api-response.schema.json",
+  "title": "API Response Checker",
+  "description": "Schema for API response validation checker. Supports status code, headers, body content, response time, and business logic validation.",
+  "type": "object",
+  "required": ["assertion"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional alias for logging and reporting."
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this checker is enabled."
+    },
+    "assertion": {
+      "$ref": "#/$defs/responseAssertion",
+      "description": "Primary assertion for API response validation."
+    },
+    "params": {
+      "type": "object",
+      "description": "Checker-specific parameters.",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "responseAssertion": {
+      "description": "API response assertion structure supporting multi-level validation.",
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "description": "Simple string assertion on entire response body."
+        },
+        {
+          "type": "number",
+          "description": "HTTP status code assertion."
+        },
+        {
+          "type": "object",
+          "description": "Structured response validation with multiple assertion layers.",
+          "$ref": "#/$defs/structuredResponseAssertion"
+        }
+      ]
+    },
+    "structuredResponseAssertion": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "$ref": "#/$defs/statusCodeAssertion",
+          "description": "Expected HTTP status code(s)."
+        },
+        "headers": {
+          "$ref": "#/$defs/headersAssertion",
+          "description": "Response header validation rules."
+        },
+        "body": {
+          "$ref": "#/$defs/bodyAssertion",
+          "description": "Response body content validation."
+        },
+        "responseTime": {
+          "$ref": "#/$defs/responseTimeAssertion",
+          "description": "Response time constraint."
+        },
+        "protocol": {
+          "$ref": "#/$defs/protocolAssertion",
+          "description": "Protocol-level assertions (HTTP/2, HTTP/1.1, etc.)."
+        },
+        "businessLogic": {
+          "$ref": "#/$defs/businessLogicAssertion",
+          "description": "Business-specific validation rules."
+        },
+        "nested": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/nestedAssertion" },
+          "description": "Nested assertions for composite validation."
+        }
+      },
+      "additionalProperties": false
+    },
+    "statusCodeAssertion": {
+      "description": "HTTP status code validation.",
+      "anyOf": [
+        {
+          "type": "number",
+          "minimum": 100,
+          "maximum": 599,
+          "description": "Single exact status code."
+        },
+        {
+          "type": "string",
+          "pattern": "^[1-5][0-9]{2}$",
+          "description": "Status code as string pattern."
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "anyOf": [
+              { "type": "number", "minimum": 100, "maximum": 599 },
+              { "type": "string", "pattern": "^[1-5][0-9]{2}$" }
+            ]
+          },
+          "description": "Multiple acceptable status codes."
+        },
+        {
+          "type": "object",
+          "properties": {
+            "range": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": { "type": "number", "minimum": 100, "maximum": 599 },
+              "description": "Status code range [min, max]."
+            },
+            "exclude": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "type": "number", "minimum": 100, "maximum": 599 },
+              "description": "Excluded status codes."
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "headersAssertion": {
+      "description": "Response headers validation.",
+      "anyOf": [
+        {
+          "type": "object",
+          "description": "Key-value exact match for specific headers.",
+          "additionalProperties": {
+            "anyOf": [
+              { "type": "string" },
+              { "type": "number" },
+              { "type": "boolean" }
+            ]
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "exactMatch": {
+              "type": "object",
+              "description": "Headers that must match exactly.",
+              "additionalProperties": true
+            },
+            "partialMatch": {
+              "type": "object",
+              "description": "Headers that must contain specified substring.",
+              "additionalProperties": { "type": "string" }
+            },
+            "patternMatch": {
+              "type": "object",
+              "description": "Headers that must match regex patterns.",
+              "additionalProperties": { "type": "string" }
+            },
+            "required": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "type": "string" },
+              "description": "Required header names (case-insensitive)."
+            },
+            "notPresent": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "type": "string" },
+              "description": "Headers that must not be present."
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "bodyAssertion": {
+      "description": "Response body content validation.",
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "description": "Direct string comparison or JSONPath expression."
+        },
+        {
+          "type": "object",
+          "description": "Advanced body validation rules.",
+          "properties": {
+            "jsonPath": {
+              "type": "object",
+              "description": "JSONPath-based assertions on body fields.",
+              "additionalProperties": {
+                "anyOf": [
+                  { "type": ["string", "number", "integer", "boolean", "null"] },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "description": "Expected value or pattern."
+                      },
+                      "operator": {
+                        "type": "string",
+                        "enum": ["equals", "notEquals", "contains", "notContains", "matches", "greaterThan", "lessThan", "greaterOrEqual", "lessOrEqual", "in", "notIn", "exists", "notExists", "isEmpty", "notEmpty"],
+                        "description": "Comparison operator."
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": ["string", "number", "integer", "boolean", "array", "object", "null"],
+                        "description": "Expected JSON type."
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                ]
+              }
+            },
+            "schema": {
+              "type": "object",
+              "description": "JSON Schema for body validation.",
+              "properties": {
+                "file": {
+                  "type": "string",
+                  "pattern": "^.+\\.schema\\.json$",
+                  "description": "Reference to JSON schema file."
+                },
+                "inline": {
+                  "type": "object",
+                  "description": "Inline JSON schema definition.",
+                  "additionalProperties": true
+                }
+              },
+              "oneOf": [
+                { "required": ["file"] },
+                { "required": ["inline"] }
+              ],
+              "additionalProperties": false
+            },
+            "contentType": {
+              "type": "string",
+              "enum": ["application/json", "application/xml", "text/plain", "text/html", "application/octet-stream"],
+              "description": "Expected content type of body."
+            },
+            "encoding": {
+              "type": "string",
+              "enum": ["utf-8", "utf-16", "iso-8859-1", "ascii"],
+              "default": "utf-8",
+              "description": "Body character encoding."
+            },
+            "notEmpty": {
+              "type": "boolean",
+              "default": true,
+              "description": "Whether body must not be empty."
+            },
+            "size": {
+              "type": "object",
+              "description": "Body size constraints.",
+              "properties": {
+                "min": {
+                  "type": "number",
+                  "minimum": 0,
+                  "description": "Minimum size in bytes."
+                },
+                "max": {
+                  "type": "number",
+                  "minimum": 0,
+                  "description": "Maximum size in bytes."
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "responseTimeAssertion": {
+      "description": "Response time performance assertion.",
+      "anyOf": [
+        {
+          "type": "number",
+          "minimum": 0,
+          "description": "Maximum acceptable response time in milliseconds."
+        },
+        {
+          "type": "object",
+          "properties": {
+            "max": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Maximum response time in milliseconds (SLA)."
+            },
+            "min": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Minimum expected response time in milliseconds."
+            },
+            "percentile": {
+              "type": "object",
+              "description": "Percentile-based time constraints for performance testing.",
+              "properties": {
+                "p50": { "type": "number", "minimum": 0 },
+                "p95": { "type": "number", "minimum": 0 },
+                "p99": { "type": "number", "minimum": 0 }
+              },
+              "additionalProperties": false
+            }
+          },
+          "oneOf": [
+            { "required": ["max"] },
+            { "required": ["min"] },
+            { "required": ["percentile"] }
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "protocolAssertion": {
+      "description": "HTTP protocol-level assertions.",
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "enum": ["HTTP/1.0", "HTTP/1.1", "HTTP/2", "HTTP/3"],
+          "description": "Expected HTTP protocol version."
+        },
+        "hasConnection": {
+          "type": "boolean",
+          "description": "Whether Connection header should be present."
+        },
+        "keepAlive": {
+          "type": "boolean",
+          "description": "Whether keep-alive is expected."
+        },
+        "chunkedEncoding": {
+          "type": "boolean",
+          "description": "Whether transfer-encoding: chunked is expected."
+        },
+        "compression": {
+          "type": "string",
+          "enum": ["gzip", "deflate", "br", "none"],
+          "description": "Expected content encoding."
+        }
+      },
+      "additionalProperties": false
+    },
+    "businessLogicAssertion": {
+      "description": "Business-specific validation rules.",
+      "type": "object",
+      "properties": {
+        "dataValidation": {
+          "type": "object",
+          "description": "Data format and domain validation.",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "format": {
+                "type": "string",
+                "enum": ["email", "phone", "date", "datetime", "uuid", "url", "currency", "percentage"],
+                "description": "Data format validation."
+              },
+              "domain": {
+                "type": "array",
+                "description": "Allowed domain values.",
+                "items": { "type": "string" }
+              },
+              "range": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": { "type": "number" },
+                "description": "Valid range [min, max] for numeric values."
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "constraints": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Business rule expressions or identifiers to validate."
+        },
+        "stateTransition": {
+          "type": "object",
+          "description": "State change validation for stateful operations.",
+          "properties": {
+            "from": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Expected previous state."
+            },
+            "to": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Expected new state."
+            },
+            "field": {
+              "type": "string",
+              "minLength": 1,
+              "description": "JSONPath to state field in response."
+            }
+          },
+          "required": ["to", "field"],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "nestedAssertion": {
+      "description": "Nested assertion for composite validation scenarios.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Nested assertion identifier."
+        },
+        "condition": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Trigger condition (JSONPath expression)."
+        },
+        "assertion": {
+          "$ref": "#/$defs/responseAssertion",
+          "description": "Nested assertion content."
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "required": ["name", "assertion"],
+      "additionalProperties": false
+    }
+  },
+  "examples": [
+    {
+      "name": "CheckSuccessfulPaymentResponse",
+      "assertion": {
+        "statusCode": 200,
+        "body": {
+          "jsonPath": {
+            "$.status": "success",
+            "$.orderId": {
+              "operator": "exists",
+              "type": "string"
+            },
+            "$.amount": {
+              "value": [0, 999999],
+              "operator": "in",
+              "type": "number"
+            }
+          },
+          "contentType": "application/json"
+        },
+        "responseTime": {
+          "max": 3000
+        }
+      }
+    },
+    {
+      "name": "CheckErrorResponse",
+      "assertion": {
+        "statusCode": [400, 401, 403, 500],
+        "body": {
+          "jsonPath": {
+            "$.error": {
+              "operator": "exists"
+            },
+            "$.errorCode": {
+              "type": "string"
+            }
+          }
+        },
+        "headers": {
+          "required": ["content-type"]
+        }
+      }
+    },
+    {
+      "name": "CheckOrderCreationWithStateTransition",
+      "assertion": {
+        "statusCode": 201,
+        "body": {
+          "jsonPath": {
+            "$.orderId": { "operator": "exists" },
+            "$.createdAt": { "format": "datetime" }
+          },
+          "schema": {
+            "file": "order-response.schema.json"
+          }
+        },
+        "businessLogic": {
+          "stateTransition": {
+            "to": "CREATED",
+            "field": "$.orderStatus"
+          },
+          "dataValidation": {
+            "amount": {
+              "range": [0.01, 999999.99]
+            }
+          }
+        },
+        "responseTime": {
+          "max": 5000
+        }
+      }
+    }
+  ]
+}

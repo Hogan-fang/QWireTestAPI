@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "response-checker.schema.json",
+  "title": "ResponseCheckerValue",
+  "description": "Payload contract for the JSON response checker node.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "assertion": {
+      "type": [
+        "string",
+        "number",
+        "integer",
+        "boolean",
+        "null",
+        "array",
+        "object"
+      ]
+    },
+    "params": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "mergeMode": {
+      "type": "string",
+      "enum": [
+        "FULL_MERGE",
+        "FULL_REPLACE"
+      ]
+    },
+    "source": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

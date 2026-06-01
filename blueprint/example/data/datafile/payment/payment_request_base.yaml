@@ -1,0 +1,5 @@
+reference: "7d4c3f7d-2b8d-4f1b-9a6b-4e8a0d3d6c10"
+name: "Payment Base Order"
+callback: "http://127.0.0.1:8100/callback"
+amount: 88.0
+currency: "USD"

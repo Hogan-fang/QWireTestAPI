@@ -1,0 +1,142 @@
+
+  {
+    "caseName": "PaymentLinkCreate",
+    "dataSets": [
+      {
+        "dataItems": [
+         {
+            "itemName": "name",
+            "type": "GENERATE_NAME",
+            "range": [
+              "10"
+            ],
+            "prefix":"NAME-",
+            "required":"Y"
+          },
+          {
+            "itemName": "amount",
+            "type": "AMOUNT",
+            "range": [
+              "0.01",
+              "10000"
+            ],
+            "required":"Y"
+          },
+          {
+            "itemName": "successful",
+            "type": "NUMBER",
+            "range": [
+              "1",
+              "999"
+            ],
+            "required":"Y",
+            "replaceInvalid":["0","-1","1000"]
+          },
+          {
+            "itemName": "expires",
+            "type": "NUMBER",
+            "range": [
+              "1",
+              "365"
+            ],
+            "required":"Y",
+            "replaceInvalid":["0","-1","366"]
+          },
+          {
+            "itemName": "dayhour",
+            "type": "SET",
+            "range": [
+              "Day(s)"
+            ],
+            "required":"Y"
+          },
+          {
+            "itemName": "email",
+            "type": "Email",
+            "range": [
+              "hogan.fang@ott.ca"
+            ],
+            "required":"Y"
+          },
+          {
+            "itemName": "memo",
+            "type": "STRING",
+            "range": [
+              "1",
+              "100"
+            ],
+            "seed": ["中文","Ab"]
+          }
+        ]
+      },
+      {
+        "dataItems": [
+          {
+            "itemName": "name",
+            "type": "GENERATE_NAME",
+            "range": [
+              "10"
+            ],
+            "prefix":"NAME-",
+            "required":"Y"
+          },
+          {
+            "itemName": "amount",
+            "type": "AMOUNT",
+            "range": [
+              "0.01",
+              "10000"
+            ],
+            "required":"Y",
+            "skipInvalid":"Y"
+          },
+          {
+            "itemName": "successful",
+            "type": "NUMBER",
+            "range": [
+              "1",
+              "999"
+            ],
+            "required":"Y",
+            "skipInvalid":"Y"
+          },
+          {
+            "itemName": "expires",
+            "type": "NUMBER",
+            "range": [
+              "1",
+              "8760"
+            ],
+            "required":"Y",
+            "replaceInvalid":["0","-1","8761"]
+          },
+          {
+            "itemName": "dayhour",
+            "type": "SET",
+            "range": [
+              "Hour(s)"
+            ],
+            "required":"Y"
+          },
+          {
+            "itemName": "email",
+            "type": "Email",
+            "range": [
+              "jason.han@ott.ca"
+            ],
+            "required":"Y",
+            "skipInvalid":"Y"
+          },
+          {
+            "itemName": "memo",
+            "type": "STRING",
+            "range": [
+              "1",
+              "100"
+            ],
+            "seed": ["中文","Ab"]
+          }
+        ]
+      }
+    ]
+  }

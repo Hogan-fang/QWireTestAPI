@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "check-definition.schema.json",
+  "title": "CheckDefinition",
+  "description": "Testcase check block contract composed from per-checker schemas.",
+  "type": "object",
+  "properties": {
+    "HTTPCode": {
+      "$ref": "http-checker.schema.json"
+    },
+    "response": {
+      "$ref": "response-checker.schema.json"
+    },
+    "dbCheck": {
+      "$ref": "db-checker.schema.json"
+    },
+    "dbcheck": {
+      "$ref": "db-checker.schema.json"
+    },
+    "callbackCheck": {
+      "$ref": "callback-checker.schema.json"
+    },
+    "callback": {
+      "$ref": "callback-checker.schema.json"
+    },
+    "bundle": {
+      "$ref": "bundle-checker.schema.json"
+    }
+  },
+  "additionalProperties": false
+}

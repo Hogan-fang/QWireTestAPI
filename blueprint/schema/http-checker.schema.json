@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http-checker.schema.json",
+  "title": "HttpCheckerValue",
+  "description": "Payload contract for the HTTP checker node.",
+  "anyOf": [
+    {
+      "type": "string",
+      "minLength": 1
+    },
+    {
+      "type": "number"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "headers": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "contentType": {
+          "type": "string"
+        },
+        "responseTimeMs": {
+          "type": "number",
+          "minimum": 0
+        },
+        "protocolState": {
+          "type": "string"
+        },
+        "assertion": {
+          "type": [
+            "string",
+            "number",
+            "integer",
+            "boolean",
+            "null",
+            "array",
+            "object"
+          ]
+        },
+        "params": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    }
+  ]
+}

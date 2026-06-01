@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Payfac API">
+    <test name="payfac payment API">
+        <classes>
+            <class name="io.qwire.payment.testcase.PaymentCase">
+                <parameter name="case" value="payment\payment_success_with_check.yaml" />
+            </class>
+        </classes>
+    </test>
+ </suite>

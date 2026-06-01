@@ -1,0 +1,29 @@
+profile:
+  name: db_check_example
+  title: DB table checker example
+  type: single
+  module: checker
+  feature: database
+  priority: P1
+  status: ready
+  description: 最小数据的 DB Table 检查器示例，展示全部数据库检查参数。
+
+data:
+  value:
+    request:
+      reference: "DB-REF-001"
+      amount: 1
+      currency: "USD"
+
+check:
+  dbCheck:
+    sql: "select reference, amount, currency from v2_orders where reference='@request.reference'"
+    query: "select reference, amount, currency from v2_orders where reference='@request.reference'"
+    sqlFile: ../../check/payment/payment_db_sql.yaml
+    sqlRef: order_by_reference
+    assertion:
+      $ref: ../../check/payment/payment_db_assertions.yaml#order_success_created
+    path: rows
+    key: reference
+    params:
+      source: response.body

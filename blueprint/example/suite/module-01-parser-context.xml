@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="QWireCore Module 02 - Parser Context">
+    <parameter name="qwire.printCaseDefine" value="true" />
+
+    <test name="payment_1_success_base">
+        <parameter name="qwire.caseFiles" value="src/test/resources/case/payment/1.payment_success_base.yaml" />
+        <classes>
+            <class name="io.qwire.testcase.CommonCaseDataProviderUsageTest" />
+        </classes>
+    </test>
+
+    <test name="payment_2_success_basic_single">
+        <parameter name="qwire.caseFiles" value="src/test/resources/case/payment/2.payment_success_basic_single.yaml" />
+        <classes>
+            <class name="io.qwire.testcase.CommonCaseDataProviderUsageTest" />
+        </classes>
+    </test>
+
+    <test name="payment_3_multiple_mixed">
+        <parameter name="qwire.caseFiles" value="src/test/resources/case/payment/3.payment_multiple_mixed.yaml" />
+        <classes>
+            <class name="io.qwire.testcase.CommonCaseDataProviderUsageTest" />
+        </classes>
+    </test>
+
+    <test name="payment_3_success_override_single">
+        <parameter name="qwire.caseFiles" value="src/test/resources/case/payment/3.payment_success_override_single.yaml" />
+        <classes>
+            <class name="io.qwire.testcase.CommonCaseDataProviderUsageTest" />
+        </classes>
+    </test>
+
+    <test name="payment_4_success_template_single">
+        <parameter name="qwire.caseFiles" value="src/test/resources/case/payment/4.payment_success_template_single.yaml" />
+        <classes>
+            <class name="io.qwire.testcase.CommonCaseDataProviderUsageTest" />
+        </classes>
+    </test>
+
+    <test name="payment_5_success_parameter_override_single">
+        <parameter name="qwire.caseFiles" value="src/test/resources/case/payment/5.payment_success_parameter_override_single.yaml" />
+        <parameter name="dynamicAmount" value="199.9" />
+        <classes>
+            <class name="io.qwire.testcase.CommonCaseDataProviderUsageTest" />
+        </classes>
+    </test>
+
+    <test name="payment_6_success_check_ref_single">
+        <parameter name="qwire.caseFiles" value="src/test/resources/case/payment/6.payment_success_check_ref_single.yaml" />
+        <classes>
+            <class name="io.qwire.testcase.CommonCaseDataProviderUsageTest" />
+        </classes>
+    </test>
+
+    <test name="payment_7_success_full_timeline">
+        <parameter name="qwire.caseFiles" value="src/test/resources/case/payment/7.payment_success_full_timeline.yaml" />
+        <classes>
+            <class name="io.qwire.testcase.CommonCaseDataProviderUsageTest" />
+        </classes>
+    </test>
+
+    <test name="payment_8_success_multiple_products">
+        <parameter name="qwire.caseFiles" value="src/test/resources/case/payment/8.payment_success_multiple_products.yaml" />
+        <classes>
+            <class name="io.qwire.testcase.CommonCaseDataProviderUsageTest" />
+        </classes>
+    </test>
+
+    <test name="payment_9_success_request_only_multiple">
+        <parameter name="qwire.caseFiles" value="src/test/resources/case/payment/9.payment_success_request_only_multiple.yaml" />
+        <classes>
+            <class name="io.qwire.testcase.CommonCaseDataProviderUsageTest" />
+        </classes>
+    </test>
+
+    <test name="payment_10_success_ref_multiple">
+        <parameter name="qwire.caseFiles" value="src/test/resources/case/payment/10.payment_success_ref_multiple.yaml" />
+        <classes>
+            <class name="io.qwire.testcase.CommonCaseDataProviderUsageTest" />
+        </classes>
+    </test>
+
+    <test name="payment_11_success_rule_multiple">
+        <parameter name="qwire.caseFiles" value="src/test/resources/case/payment/11.payment_success_rule_multiple.yaml" />
+        <classes>
+            <class name="io.qwire.testcase.CommonCaseDataProviderUsageTest" />
+        </classes>
+    </test>
+
+    <test name="payment_12_success_template_multiple_inline_ref">
+        <parameter name="qwire.caseFiles" value="src/test/resources/case/payment/12.payment_success_template_multiple_inline_ref.yaml" />
+        <classes>
+            <class name="io.qwire.testcase.CommonCaseDataProviderUsageTest" />
+        </classes>
+    </test>
+
+    <test name="payment_13_success_template_multiple_inline_ref_advanced">
+        <parameter name="qwire.caseFiles" value="src/test/resources/case/payment/13.payment_success_template_multiple_inline_ref_advanced.yaml" />
+        <classes>
+            <class name="io.qwire.testcase.CommonCaseDataProviderUsageTest" />
+        </classes>
+    </test>
+
+    <test name="payment_14_fail_duplicate_reference_single">
+        <parameter name="qwire.caseFiles" value="src/test/resources/case/payment/14.payment_fail_duplicate_reference_single.yaml" />
+        <classes>
+            <class name="io.qwire.testcase.CommonCaseDataProviderUsageTest" />
+        </classes>
+    </test>
+
+    <test name="payment_15_fail_invalid_card_single">
+        <parameter name="qwire.caseFiles" value="src/test/resources/case/payment/15.payment_fail_invalid_card_single.yaml" />
+        <classes>
+            <class name="io.qwire.testcase.CommonCaseDataProviderUsageTest" />
+        </classes>
+    </test>
+
+</suite>

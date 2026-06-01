@@ -1,0 +1,7 @@
+name: payment_request_multiple_rule
+version: "1.0"
+description: demo rule definition for multiple dataset generation
+inputs:
+  source: static
+output:
+  file: $home/data/datafile/payment/payment_request_multiple_rule_output.yaml

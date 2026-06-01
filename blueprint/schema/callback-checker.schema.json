@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "callback-checker.schema.json",
+  "title": "CallbackCheckerValue",
+  "description": "Payload contract for the callback checker node.",
+  "anyOf": [
+    {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "assertion": {
+          "type": [
+            "string",
+            "number",
+            "integer",
+            "boolean",
+            "null",
+            "array",
+            "object"
+          ]
+        },
+        "params": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "mergeMode": {
+          "type": "string",
+          "enum": [
+            "FULL_MERGE",
+            "FULL_REPLACE"
+          ]
+        },
+        "source": {
+          "type": "string"
+        },
+        "timeUnit": {
+          "type": "string"
+        },
+        "wait": {
+          "type": [
+            "string",
+            "number",
+            "integer",
+            "boolean",
+            "null",
+            "array",
+            "object"
+          ]
+        },
+        "interval": {
+          "type": [
+            "string",
+            "number",
+            "integer",
+            "boolean",
+            "null",
+            "array",
+            "object"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/CallbackCheckItem"
+      }
+    }
+  ],
+  "$defs": {
+    "CallbackCheckItem": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "assertion": {
+          "type": [
+            "string",
+            "number",
+            "integer",
+            "boolean",
+            "null",
+            "array",
+            "object"
+          ]
+        },
+        "params": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "mergeMode": {
+          "type": "string",
+          "enum": [
+            "FULL_MERGE",
+            "FULL_REPLACE"
+          ]
+        },
+        "source": {
+          "type": "string"
+        },
+        "timeUnit": {
+          "type": "string"
+        },
+        "wait": {
+          "type": [
+            "string",
+            "number",
+            "integer",
+            "boolean",
+            "null",
+            "array",
+            "object"
+          ]
+        },
+        "interval": {
+          "type": [
+            "string",
+            "number",
+            "integer",
+            "boolean",
+            "null",
+            "array",
+            "object"
+          ]
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

@@ -1,6 +1,10 @@
 # Maven build output
 target/
 
+# Allure outputs
+allure-report/
+allure-results/
+
 # Logs
 *.log
 

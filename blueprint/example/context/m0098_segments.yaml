@@ -1,8 +1,0 @@
-primary:
-  mid: 0098
-  signkey: d38e93dc9b1e4a7c8f0d9a5e5b2c3f1
-  currency: CAD
-backup:
-  mid: 0199
-  signkey: 7aa93dc9b1e4a7c8f0d9a5e5b2c3f22
-  currency: USD

@@ -1,0 +1,53 @@
+profile:
+  name: PAY-N-001-DB
+  title: Create order succeeds and is persisted in DB
+  type: single
+  action: order.createOrder
+  module: mockapi
+  feature: create-order-db
+  category: Normal
+  status: optional-db
+  service: payment
+
+data:
+  ref:
+    - file: ../../../../../../runtime/context/cards.yaml#paid
+      to: value.card
+    - file: ../data/products.yaml#one
+      to: value.products
+
+  template:
+    - file: ../template/create-order.template.yaml
+      to: request
+  request:
+    reference: PAY-N-001-DB-{{runId}}
+    merchantId: "{{context.merchant.id}}"
+    amount: 120.0
+    currency: CAD
+
+check:
+  - name: transportCheck
+    assertion:
+      response.statusCode: "200"
+  - name: jsonResponseCheck
+    assertion:
+      orderId: "$exists"
+      reference: "$eq: request.reference"
+      merchantId: "$eq: request.merchantId"
+      amount: "$eq: request.amount"
+      currency: "$eq: request.currency"
+      paymentStatus: "$eq: PAID"
+      createTime: "$exists"
+      finishTime: "$exists"
+      failReason: "$notExists"
+  - name: dbCheck
+    param:
+      datasource: localDb
+      sqlFile: src/test/resources/testdefine/mockapi/sql/mockapi-order.sql#findOrderByReference
+    assertion:
+      $rowCount: "$eq: 1"
+      reference: "$eq: request.reference"
+      merchant_id: "$eq: request.merchantId"
+      payment_status: "$eq: PAID"
+      order_status: "$eq: PROCESSING"
+      card_number_masked: "$exists"

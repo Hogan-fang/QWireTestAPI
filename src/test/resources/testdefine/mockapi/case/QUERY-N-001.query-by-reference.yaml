@@ -1,0 +1,33 @@
+profile:
+  name: QUERY-N-001
+  title: Query created order by reference
+  type: single
+  module: mockapi
+  feature: query-order
+  category: Normal
+
+data:
+  request:
+    merchantId: "{{context.merchant.id}}"
+    reference: PAY-N-001-FLOW-001
+check:
+  - name: transportCheck
+    assertion:
+      response.statusCode: "200"
+      maxResponseTimeMs: 5000
+  - name: jsonResponseCheck
+    assertion:
+      orderId: "$exists"
+      reference: "$eq: PAY-N-001-FLOW-001"
+      merchantId: "$eq: context.merchant.id"
+      amount: "$eq: 120.0"
+      currency: "$eq: CAD"
+      paymentStatus: "$eq: PAID"
+      orderStatus: "$eq: PROCESSING"
+      cardNumber: "$exists"
+      products[0].sku: "$eq: SKU-PAY-N-001"
+      products[0].name: "$eq: SKU-PAY-N-001"
+      products[0].quantity: "$eq: 1"
+      products[0].unitPrice: "$eq: 120.0"
+      products[0].amount: "$eq: 120.0"
+      failReason: "$notExists"

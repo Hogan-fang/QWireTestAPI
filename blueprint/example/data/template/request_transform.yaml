@@ -1,5 +1,0 @@
-request:
-  amount: {{amount}}
-  currency: "{{currency}}"
-  amountText: "AMT-{{amount}}"
-  cardNumber: "{{cardNumber}}"

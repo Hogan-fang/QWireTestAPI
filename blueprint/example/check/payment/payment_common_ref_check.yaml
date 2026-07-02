@@ -1,8 +1,0 @@
-check:
-  HTTPCode:
-    assertion: "201"
-  response:
-    assertion:
-      $ref: "$home/check/payment/payment_response_assertions.yaml#single_success"
-    params:
-      source: response.body

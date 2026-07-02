@@ -1,0 +1,36 @@
+connections:
+  orderApi:
+    adapter: http
+    protocol: http
+    config:
+      baseUrl: http://127.0.0.1:9100
+      connectTimeoutMs: 5000
+      readTimeoutMs: 10000
+      defaultHeaders:
+        Content-Type: application/json
+        Accept: application/json
+        X-Mock-Signature: ${signature}
+
+  callbackApi:
+    adapter: http
+    protocol: http
+    config:
+      baseUrl: http://127.0.0.1:8100
+      connectTimeoutMs: 5000
+      readTimeoutMs: 10000
+      defaultHeaders:
+        Content-Type: application/json
+        Accept: application/json
+
+  mockDb:
+    adapter: db
+    protocol: db
+    config:
+      jdbcUrl: jdbc:mysql://127.0.0.1:3306/qwire?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      username: qwire
+      password: Qwire2026
+      driverClass: com.mysql.cj.jdbc.Driver
+      readOnly: true
+      poolConfig:
+        maxPoolSize: 2
+        minIdle: 0

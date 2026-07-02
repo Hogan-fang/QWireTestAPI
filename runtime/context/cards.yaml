@@ -1,0 +1,18 @@
+paid:
+  cardholderName: TEST USER
+  cardNumber: "6222222222222222"
+  cvv: "123"
+  expiry: "12/28"
+  brand: UnionPay
+balanceFailed:
+  cardholderName: TEST USER
+  cardNumber: "5555555555554444"
+  cvv: "123"
+  expiry: "12/28"
+  brand: MasterCard
+invalid:
+  cardholderName: TEST USER
+  cardNumber: "4111111111111111"
+  cvv: "123"
+  expiry: "12/28"
+  brand: Visa

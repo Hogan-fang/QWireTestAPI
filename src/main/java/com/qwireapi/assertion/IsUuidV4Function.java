@@ -2,11 +2,9 @@ package com.qwireapi.assertion;
 
 import java.util.regex.Pattern;
 
-import io.qwire.check.AssertionFunction;
-import io.qwire.framework.api.RequestManager;
-import io.qwire.testcase.CaseData;
+import io.qwire.assertion.IAssertionFunction;
 
-public class IsUuidV4Function implements AssertionFunction {
+public class IsUuidV4Function implements IAssertionFunction {
 
     private static final Pattern UUID_V4_PATTERN = Pattern
             .compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$");
@@ -17,7 +15,7 @@ public class IsUuidV4Function implements AssertionFunction {
     }
 
     @Override
-    public boolean matches(Object actual, String args, RequestManager request, CaseData caseData) {
+    public boolean matches(Object actual, Object[] args) {
         if (actual == null) {
             return false;
         }
@@ -26,7 +24,7 @@ public class IsUuidV4Function implements AssertionFunction {
     }
 
     @Override
-    public String renderExpected(String args) {
+    public String renderExpected() {
         return "$isUuidV4()";
     }
 }

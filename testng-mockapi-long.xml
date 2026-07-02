@@ -1,32 +1,7 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
-<suite name="QwireTestAPI Test Suite">
-    <parameter name="qWire.runtime" value="runtime/payment-uat-android.yaml"/>
-
-    <test name="Core Tests">
-        <classes>
-            <class name="com.qwireapi.AppTest"/>
-            <class name="com.qwireapi.assertion.IsUuidV4FunctionTest"/>
-        </classes>
-    </test>
-
+<suite name="QwireTestAPI MockAPI Long Workflow Suite">
     <test name="MockAPI Create Order Normal">
         <parameter name="qWire.caseDefine" value="src/test/resources/testdefine/mockapi/case/PAY-N-001.create-order-success.yaml"/>
-        <parameter name="qWire.printCaseDefine" value="false"/>
-        <classes>
-            <class name="com.qwireapi.mockapi.MockApiCaseTest"/>
-        </classes>
-    </test>
-
-    <test name="MockAPI Create Order Business Failed">
-        <parameter name="qWire.caseDefine" value="src/test/resources/testdefine/mockapi/case/PAY-N-002.create-order-business-failed.yaml"/>
-        <parameter name="qWire.printCaseDefine" value="false"/>
-        <classes>
-            <class name="com.qwireapi.mockapi.MockApiCaseTest"/>
-        </classes>
-    </test>
-
-    <test name="MockAPI Create Order Exception">
-        <parameter name="qWire.caseDefine" value="src/test/resources/testdefine/mockapi/case/PAY-E-004.create-order-invalid-card.yaml"/>
         <parameter name="qWire.printCaseDefine" value="false"/>
         <classes>
             <class name="com.qwireapi.mockapi.MockApiCaseTest"/>
@@ -41,7 +16,7 @@
         </classes>
     </test>
 
-    <test name="MockAPI Callback">
+    <test name="MockAPI Callback Receive">
         <parameter name="qWire.caseDefine" value="src/test/resources/testdefine/mockapi/case/CALLBACK-N-001.receive-and-query-callback.yaml"/>
         <parameter name="qWire.printCaseDefine" value="false"/>
         <classes>

@@ -1,0 +1,5 @@
+one:
+  - sku: SKU-PAY-N-001
+    quantity: 1
+    unitPrice: 120.0
+    amount: 120.0

@@ -1,2 +1,0 @@
-requestId: "$isUuidV4()"
-traceId: "$startsWith(TRC-)"

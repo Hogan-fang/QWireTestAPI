@@ -7,7 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import io.qwire.check.UnifiedAssertionEvaluator;
+import io.qwire.assertion.UnifiedAssertionEvaluator;
 
 public class IsUuidV4FunctionTest {
 
@@ -28,7 +28,6 @@ public class IsUuidV4FunctionTest {
                 "response",
                 actual,
                 expected,
-                null,
                 null);
 
         Assert.assertTrue(result.isSuccess());
@@ -46,7 +45,6 @@ public class IsUuidV4FunctionTest {
                 "response",
                 actual,
                 expected,
-                null,
                 null);
 
         Assert.assertFalse(result.isSuccess());
@@ -65,7 +63,6 @@ public class IsUuidV4FunctionTest {
                 "response",
                 actual,
                 expected,
-                null,
                 null);
 
         Assert.assertFalse(result.isSuccess());

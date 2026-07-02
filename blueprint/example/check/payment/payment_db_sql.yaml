@@ -1,4 +1,0 @@
-order_by_reference: "select reference, order_id, name, callback_url, amount, currency, status, failReason, card_number from v2_orders where reference='@request.reference' order by id desc limit 1"
-first_product_by_reference: "select p.product_id, p.count, p.spec, p.status from v2_order_products p join v2_orders o on p.order_id = o.id where o.reference='@request.reference' order by p.id limit 1"
-order_and_first_product_status_by_reference: "select o.status as order_status, p.product_id, p.status as product_status from v2_order_products p join v2_orders o on p.order_id = o.id where o.reference='@request.reference' order by p.id limit 1"
-order_status_by_reference: "select status from v2_orders where reference='@request.reference' order by id desc limit 1"

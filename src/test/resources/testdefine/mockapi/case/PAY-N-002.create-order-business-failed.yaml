@@ -1,0 +1,41 @@
+profile:
+  name: PAY-N-002
+  title: Create order returns business failure
+  type: single
+  action: order.createOrder
+  module: mockapi
+  feature: create-order
+  category: Normal
+
+data:
+  ref:
+    - file: ../../../../../../runtime/context/cards.yaml#paid
+      to: value.card
+    - file: ../data/products.yaml#one
+      to: value.products
+
+  template:
+    - file: ../template/create-order.template.yaml
+      to: request
+
+  request:
+    reference: PAY-N-002-{{runId}}
+    merchantId: "{{context.merchant.id}}"
+    amount: 88.0
+    currency: CAD
+check:
+  - name: transportCheck
+    assertion:
+      response.statusCode: "200"
+      maxResponseTimeMs: 5000
+  - name: jsonResponseCheck
+    assertion:
+      orderId: "$exists"
+      reference: "$eq: request.reference"
+      merchantId: "$eq: request.merchantId"
+      amount: "$eq: request.amount"
+      currency: "$eq: request.currency"
+      paymentStatus: "$eq: FAILED"
+      createTime: "$exists"
+      finishTime: "$exists"
+      failReason: "$eq: 余额不足"

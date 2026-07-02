@@ -1,3 +1,0 @@
-order_status: "SUCCESS"
-product_id: "$ref(request.products[0].productId)"
-product_status: "SHIPPED"

@@ -1,0 +1,57 @@
+profile:
+  name: FLOW-N-001
+  title: Create order, receive callback, wait for delivery, and query delivered order
+  type: single
+  module: mockapi
+  feature: workflow
+  category: Workflow
+  status: manual-long-running
+
+data:
+  ref:
+    - file: ../../../../../../runtime/context/cards.yaml#paid
+      to: value.card
+    - file: ../data/products.yaml#one
+      to: value.products
+
+  template:
+    - file: ../template/create-order.template.yaml
+      to: request
+
+  request:
+    reference: FLOW-N-001-{{runId}}
+    merchantId: "{{context.merchant.id}}"
+    amount: 120.0
+    currency: CAD
+
+check:
+  - name: transportCheck
+    assertion:
+      response.statusCode: "200"
+  - name: jsonResponseCheck
+    assertion:
+      orderId: "$exists"
+      reference: "$eq: request.reference"
+      merchantId: "$eq: request.merchantId"
+      amount: "$eq: request.amount"
+      currency: "$eq: request.currency"
+      paymentStatus: "$eq: PAID"
+      createTime: "$exists"
+      finishTime: "$exists"
+      failReason: "$notExists"
+  - name: callbackCheck
+    control:
+      timeout: 30s
+      interval: 2s
+    param:
+      transport: callbackApi
+      orderId: response.orderId
+    assertion:
+      statusCode: "$eq: 200"
+      callbackId: "$exists"
+      callbackTime: "$exists"
+      orderId: "$eq: response.orderId"
+      reference: "$eq: request.reference"
+      merchantId: "$eq: request.merchantId"
+      paymentStatus: "$eq: PAID"
+      orderStatus: "$eq: PROCESSING"

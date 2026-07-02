@@ -1,4 +1,0 @@
-product_id: "$ref(request.products[0].productId)"
-count: "$ref(request.products[0].count)"
-spec: "$ref(request.products[0].spec)"
-status: "PROCESSING"

@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="QwireTestAPI MockAPI DB Suite">
+    <test name="MockAPI Create Order DB Check">
+        <parameter name="qWire.caseDefine" value="src/test/resources/testdefine/mockapi/case/PAY-N-001.create-order-success-db.yaml"/>
+        <parameter name="qWire.printCaseDefine" value="false"/>
+        <classes>
+            <class name="com.qwireapi.mockapi.executer.PaymentCaseExecuter"/>
+        </classes>
+    </test>
+</suite>

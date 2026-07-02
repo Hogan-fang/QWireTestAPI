@@ -1,6 +1,6 @@
 package com.qwireapi.assertion;
 
-import io.qwire.check.UnifiedAssertionEvaluator;
+import io.qwire.assertion.UnifiedAssertionEvaluator;
 
 public final class AssertionBootstrap {
 

@@ -1,0 +1,1 @@
+{"uuid":"23053118-f989-4c50-9a3d-13b4933fb8cb","name":"QwireTestAPI MockAPI DB Suite","children":["c5291183-60d4-4c98-a17e-96b65a111c79"],"befores":[{"name":"beforeSuite","status":"passed","stage":"finished","description":"","steps":[],"attachments":[],"parameters":[],"start":1782955598481,"stop":1782955598812}],"afters":[],"start":1782955598449,"stop":1782955602961}

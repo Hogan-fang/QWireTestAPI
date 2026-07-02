@@ -1,8 +1,0 @@
-name: normal
-desc: This is a simple order test case with test data defined in external files.
-
-datafile:
-  request:
-    order.yaml: ""
-    card_valid.yaml: ""
-    products.yaml: "products"

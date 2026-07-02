@@ -1,6 +1,0 @@
-eventType: "ORDER_SHIPPED"
-reference: "$ref(request.reference)"
-orderId: "$regex(^PX\\d+$)"
-status: "SUCCESS"
-products[0].productId: "$ref(request.products[0].productId)"
-products[0].status: "SHIPPED"

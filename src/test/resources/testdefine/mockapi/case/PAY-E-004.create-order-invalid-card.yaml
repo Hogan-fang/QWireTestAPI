@@ -1,0 +1,33 @@
+profile:
+  name: PAY-E-004
+  title: Create order rejects invalid card
+  type: single
+  action: order.createOrder
+  module: mockapi
+  feature: create-order
+  category: Exception
+
+data:
+  ref:
+    - file: ../../../../../../runtime/context/cards.yaml#paid
+      to: value.card
+    - file: ../data/products.yaml#one
+      to: value.products
+
+  template:
+    - file: ../template/create-order.template.yaml
+      to: request
+
+  request:
+    reference: PAY-E-004-{{runId}}
+    merchantId: "{{context.merchant.id}}"
+    amount: 120.0
+    currency: CAD
+check:
+  - name: transportCheck
+    assertion:
+      response.statusCode: "400"
+      maxResponseTimeMs: 5000
+  - name: jsonResponseCheck
+    assertion:
+      detail: "$eq: Invalid card number"

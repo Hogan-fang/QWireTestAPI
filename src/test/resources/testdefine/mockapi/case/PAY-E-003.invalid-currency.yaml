@@ -1,0 +1,32 @@
+profile:
+  name: PAY-E-003
+  title: Create order rejects invalid currency
+  type: single
+  action: order.createOrder
+  module: mockapi
+  feature: create-order
+  category: Exception
+  service: payment
+
+data:
+  ref:
+    - file: $project/runtime/context/cards.yaml#paid
+      to: value.card
+    - file: $home/data/products.yaml#one
+      to: value.products
+  template:
+    - file: $home/data/template/create-order.template.yaml
+      to: request
+  request:
+    reference: PAY-E-003-{{runId}}
+    merchantId: "{{context.mid}}"
+    amount: 120.0
+    currency: XXX
+
+check:
+  - name: transportCheck
+    assertion:
+      response.statusCode: "400"
+  - name: jsonResponseCheck
+    assertion:
+      detail: "$eq: Invalid currency"

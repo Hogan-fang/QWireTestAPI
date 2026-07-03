@@ -1,6 +1,5 @@
 package com.qwireapi.mockapi.client;
 
-import com.qwireapi.mockapi.transport.ResponseOnlyHttpJsonProcessor;
 import com.qwireapi.mockapi.transport.SimulatedCryptoProcessor;
 import io.qwire.context.ExecutionContext;
 import io.qwire.transport.HttpMethod;
@@ -22,7 +21,6 @@ public abstract class AbstractMockApiClient {
         this.transportProxy = new TransportProxy();
         this.transportProxy.registerProcessor(new HttpJsonProcessor());
         this.transportProxy.registerProcessor(new SimulatedCryptoProcessor());
-        this.transportProxy.registerProcessor(new ResponseOnlyHttpJsonProcessor());
     }
 
     protected void execute(String uri, HttpMethod method, ExecutionContext context) {

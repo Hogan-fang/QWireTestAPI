@@ -1,0 +1,29 @@
+profile:
+  name: PAY-E-006
+  title: Invalid JSON type should be rejected
+  type: single
+  action: order.createOrder
+  module: mockapi
+  feature: create-order
+  category: Exception
+  service: payment
+
+data:
+  ref:
+    - file: $project/runtime/context/cards.yaml#paid
+      to: value.card
+    - file: $home/data/products.yaml#one
+      to: value.products
+  template:
+    - file: $home/data/template/create-order.template.yaml
+      to: request
+  request:
+    reference: PAY-E-006-{{runId}}
+    merchantId: "{{context.mid}}"
+    amount: "INVALID_STRING"
+    currency: CAD
+
+check:
+  - name: transportCheck
+    assertion:
+      response.statusCode: "422"

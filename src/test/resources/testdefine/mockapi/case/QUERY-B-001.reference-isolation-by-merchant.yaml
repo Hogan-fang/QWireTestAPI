@@ -1,0 +1,19 @@
+profile:
+  name: QUERY-B-001
+  title: Same reference should be isolated by merchant
+  type: single
+  module: mockapi
+  feature: query-order
+  category: Boundary
+  status: draft-manual
+  service: query
+
+data:
+  request:
+    merchantId: "{{context.mid}}"
+    reference: QUERY-B-001-SHARED
+
+check:
+  - name: transportCheck
+    assertion:
+      response.statusCode: "200"

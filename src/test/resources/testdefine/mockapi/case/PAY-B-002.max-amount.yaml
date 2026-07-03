@@ -1,0 +1,30 @@
+profile:
+  name: PAY-B-002
+  title: Create order with maximum amount
+  type: single
+  action: order.createOrder
+  module: mockapi
+  feature: create-order
+  category: Boundary
+  status: draft-manual
+  service: payment
+
+data:
+  ref:
+    - file: $project/runtime/context/cards.yaml#paid
+      to: value.card
+    - file: $home/data/products.yaml#one
+      to: value.products
+  template:
+    - file: $home/data/template/create-order.template.yaml
+      to: request
+  request:
+    reference: PAY-B-002-{{runId}}
+    merchantId: "{{context.mid}}"
+    amount: 999999.99
+    currency: CAD
+
+check:
+  - name: transportCheck
+    assertion:
+      response.statusCode: "200"

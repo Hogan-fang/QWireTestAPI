@@ -1,0 +1,19 @@
+profile:
+  name: QUERY-N-002
+  title: Query order by orderId
+  type: single
+  module: mockapi
+  feature: query-order
+  category: Normal
+  status: draft-manual
+  service: query
+
+data:
+  request:
+    merchantId: "{{context.mid}}"
+    orderId: "11111111-1111-1111-1111-111111111111"
+
+check:
+  - name: transportCheck
+    assertion:
+      response.statusCode: "200"

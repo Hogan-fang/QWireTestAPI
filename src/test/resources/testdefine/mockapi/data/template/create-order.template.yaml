@@ -1,0 +1,6 @@
+request:
+  cardholderName: "{{card.cardholderName}}"
+  cardNumber: "{{card.cardNumber}}"
+  cvv: "{{card.cvv}}"
+  expiry: "{{card.expiry}}"
+  products: {{products}}

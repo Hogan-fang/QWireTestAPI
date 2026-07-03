@@ -1,0 +1,29 @@
+profile:
+  name: PAY-B-004
+  title: Create order with maximum reference length
+  type: single
+  action: order.createOrder
+  module: mockapi
+  feature: create-order
+  category: Boundary
+  service: payment
+
+data:
+  ref:
+    - file: $project/runtime/context/cards.yaml#paid
+      to: value.card
+    - file: $home/data/products.yaml#one
+      to: value.products
+  template:
+    - file: $home/data/template/create-order.template.yaml
+      to: request
+  request:
+    reference: PAY-B-004-1234567890123456789012345678901234567890123456789012345
+    merchantId: "{{context.mid}}"
+    amount: 120.0
+    currency: CAD
+
+check:
+  - name: transportCheck
+    assertion:
+      response.statusCode: "200"

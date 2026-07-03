@@ -1,0 +1,19 @@
+profile:
+  name: FLOW-S-001
+  title: Cross-merchant access should be denied
+  type: single
+  module: mockapi
+  feature: workflow
+  category: Security
+  status: draft-manual
+  service: query
+
+data:
+  request:
+    merchantId: "M10002"
+    reference: FLOW-S-001-M10001-REF
+
+check:
+  - name: transportCheck
+    assertion:
+      response.statusCode: "404"

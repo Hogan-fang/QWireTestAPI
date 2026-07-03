@@ -4,7 +4,7 @@
         <parameter name="qWire.caseDefine" value="src/test/resources/testdefine/mockapi/case/PAY-N-001.create-order-success-db.yaml"/>
         <parameter name="qWire.printCaseDefine" value="false"/>
         <classes>
-            <class name="com.qwireapi.mockapi.executer.PaymentCaseExecuter"/>
+            <class name="com.qwireapi.mockapi.executor.PaymentCaseExecutor"/>
         </classes>
     </test>
 </suite>

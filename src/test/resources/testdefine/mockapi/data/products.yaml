@@ -3,3 +3,13 @@ one:
     quantity: 1
     unitPrice: 120.0
     amount: 120.0
+
+two:
+  - sku: SKU-PAY-N-001
+    quantity: 1
+    unitPrice: 120.0
+    amount: 120.0
+  - sku: SKU-PAY-N-002
+    quantity: 2
+    unitPrice: 10.0
+    amount: 20.0

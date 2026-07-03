@@ -1,0 +1,21 @@
+profile:
+  name: QUERY-E-001
+  title: Query non-existing order returns 404
+  type: single
+  module: mockapi
+  feature: query-order
+  category: Exception
+  service: query
+
+data:
+  request:
+    merchantId: "{{context.mid}}"
+    reference: QUERY-E-001-NOT-EXIST
+
+check:
+  - name: transportCheck
+    assertion:
+      response.statusCode: "404"
+  - name: jsonResponseCheck
+    assertion:
+      detail: "$eq: Order not exist"

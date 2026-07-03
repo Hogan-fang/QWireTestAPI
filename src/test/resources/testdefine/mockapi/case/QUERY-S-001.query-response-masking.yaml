@@ -1,0 +1,25 @@
+profile:
+  name: QUERY-S-001
+  title: Query response should mask sensitive fields
+  type: single
+  module: mockapi
+  feature: query-order
+  category: Security
+  status: draft-manual
+  service: query
+
+data:
+  request:
+    merchantId: "{{context.mid}}"
+    reference: QUERY-S-001-REF
+
+check:
+  - name: transportCheck
+    assertion:
+      response.statusCode: "200"
+  - name: jsonResponseCheck
+    assertion:
+      cvv: "$notExists"
+      expiry: "$notExists"
+      cardholderName: "$notExists"
+      cardNumber: "$exists"

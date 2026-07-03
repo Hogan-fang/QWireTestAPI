@@ -1,34 +1,94 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 <suite name="QwireTestAPI MockAPI Long Workflow Suite">
-    <test name="MockAPI Create Order Normal">
+    <test name="PAY-B-001.min-amount">
+        <parameter name="qWire.caseDefine" value="src/test/resources/testdefine/mockapi/case/PAY-B-001.min-amount.yaml"/>
+        <parameter name="qWire.printCaseDefine" value="false"/>
+        <classes>
+            <class name="com.qwireapi.mockapi.executor.PaymentCaseExecutor"/>
+        </classes>
+    </test>
+    <test name="PAY-B-002.max-amount">
+        <parameter name="qWire.caseDefine" value="src/test/resources/testdefine/mockapi/case/PAY-B-002.max-amount.yaml"/>
+        <parameter name="qWire.printCaseDefine" value="false"/>
+        <classes>
+            <class name="com.qwireapi.mockapi.executor.PaymentCaseExecutor"/>
+        </classes>
+    </test>
+    <test name="PAY-B-003.reference-min-length">
+        <parameter name="qWire.caseDefine" value="src/test/resources/testdefine/mockapi/case/PAY-B-003.reference-min-length.yaml"/>
+        <parameter name="qWire.printCaseDefine" value="false"/>
+        <classes>
+            <class name="com.qwireapi.mockapi.executor.PaymentCaseExecutor"/>
+        </classes>
+    </test>
+    <test name="PAY-B-005.multi-products">
+        <parameter name="qWire.caseDefine" value="src/test/resources/testdefine/mockapi/case/PAY-B-005.multi-products.yaml"/>
+        <parameter name="qWire.printCaseDefine" value="false"/>
+        <classes>
+            <class name="com.qwireapi.mockapi.executor.PaymentCaseExecutor"/>
+        </classes>
+    </test>
+    <test name="PAY-E-001.merchant-missing">
+        <parameter name="qWire.caseDefine" value="src/test/resources/testdefine/mockapi/case/PAY-E-001.merchant-missing.yaml"/>
+        <parameter name="qWire.printCaseDefine" value="false"/>
+        <classes>
+            <class name="com.qwireapi.mockapi.executor.PaymentCaseExecutor"/>
+        </classes>
+    </test>
+    <test name="PAY-E-003.invalid-currency">
+        <parameter name="qWire.caseDefine" value="src/test/resources/testdefine/mockapi/case/PAY-E-003.invalid-currency.yaml"/>
+        <parameter name="qWire.printCaseDefine" value="false"/>
+        <classes>
+            <class name="com.qwireapi.mockapi.executor.PaymentCaseExecutor"/>
+        </classes>
+    </test>
+    <test name="PAY-E-006.invalid-json-format">
+        <parameter name="qWire.caseDefine" value="src/test/resources/testdefine/mockapi/case/PAY-E-006.invalid-json-format.yaml"/>
+        <parameter name="qWire.printCaseDefine" value="false"/>
+        <classes>
+            <class name="com.qwireapi.mockapi.executor.PaymentCaseExecutor"/>
+        </classes>
+    </test>
+    <test name="PAY-N-001.create-order-success-db">
+        <parameter name="qWire.caseDefine" value="src/test/resources/testdefine/mockapi/case/PAY-N-001.create-order-success-db.yaml"/>
+        <parameter name="qWire.printCaseDefine" value="false"/>
+        <classes>
+            <class name="com.qwireapi.mockapi.executor.PaymentCaseExecutor"/>
+        </classes>
+    </test>
+    <test name="PAY-N-001.create-order-success">
         <parameter name="qWire.caseDefine" value="src/test/resources/testdefine/mockapi/case/PAY-N-001.create-order-success.yaml"/>
         <parameter name="qWire.printCaseDefine" value="false"/>
         <classes>
-            <class name="com.qwireapi.mockapi.MockApiCaseTest"/>
+            <class name="com.qwireapi.mockapi.executor.PaymentCaseExecutor"/>
         </classes>
     </test>
-
-    <test name="MockAPI Query Order">
-        <parameter name="qWire.caseDefine" value="src/test/resources/testdefine/mockapi/case/QUERY-N-001.query-by-reference.yaml"/>
+    <test name="PAY-N-003.multi-merchant-create-order">
+        <parameter name="qWire.caseDefine" value="src/test/resources/testdefine/mockapi/case/PAY-N-003.multi-merchant-create-order.yaml"/>
         <parameter name="qWire.printCaseDefine" value="false"/>
         <classes>
-            <class name="com.qwireapi.mockapi.MockApiCaseTest"/>
+            <class name="com.qwireapi.mockapi.executor.PaymentCaseExecutor"/>
         </classes>
     </test>
-
-    <test name="MockAPI Callback Receive">
-        <parameter name="qWire.caseDefine" value="src/test/resources/testdefine/mockapi/case/CALLBACK-N-001.receive-and-query-callback.yaml"/>
+    <test name="PAY-S-001.signature-valid">
+        <parameter name="qWire.caseDefine" value="src/test/resources/testdefine/mockapi/case/PAY-S-001.signature-valid.yaml"/>
         <parameter name="qWire.printCaseDefine" value="false"/>
         <classes>
-            <class name="com.qwireapi.mockapi.MockApiCaseTest"/>
+            <class name="com.qwireapi.mockapi.executor.PaymentCaseExecutor"/>
         </classes>
     </test>
-
-    <test name="MockAPI Callback Query Latest">
-        <parameter name="qWire.caseDefine" value="src/test/resources/testdefine/mockapi/case/CALLBACK-N-002.query-latest-callback.yaml"/>
+    <test name="PAY-S-004.db-mask-sensitive-fields">
+        <parameter name="qWire.caseDefine" value="src/test/resources/testdefine/mockapi/case/PAY-S-004.db-mask-sensitive-fields.yaml"/>
         <parameter name="qWire.printCaseDefine" value="false"/>
         <classes>
-            <class name="com.qwireapi.mockapi.MockApiCaseTest"/>
+            <class name="com.qwireapi.mockapi.executor.PaymentCaseExecutor"/>
+        </classes>
+    </test>
+    <test name="PAY-S-005.response-no-sensitive-fields">
+        <parameter name="qWire.caseDefine" value="src/test/resources/testdefine/mockapi/case/PAY-S-005.response-no-sensitive-fields.yaml"/>
+        <parameter name="qWire.printCaseDefine" value="false"/>
+        <classes>
+            <class name="com.qwireapi.mockapi.executor.PaymentCaseExecutor"/>
         </classes>
     </test>
 </suite>

@@ -1,0 +1,30 @@
+profile:
+  name: PAY-N-003
+  title: Multi-merchant create order isolation
+  type: single
+  action: order.createOrder
+  module: mockapi
+  feature: create-order
+  category: Normal
+  status: draft-manual
+  service: payment
+
+data:
+  ref:
+    - file: $project/runtime/context/cards.yaml#paid
+      to: value.card
+    - file: $home/data/products.yaml#one
+      to: value.products
+  template:
+    - file: $home/data/template/create-order.template.yaml
+      to: request
+  request:
+    reference: PAY-N-003-{{runId}}
+    merchantId: "{{context.mid}}"
+    amount: 120.0
+    currency: CAD
+
+check:
+  - name: transportCheck
+    assertion:
+      response.statusCode: "200"

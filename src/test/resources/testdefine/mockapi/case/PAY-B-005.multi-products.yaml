@@ -1,0 +1,32 @@
+profile:
+  name: PAY-B-005
+  title: Create order with multi-products
+  type: single
+  action: order.createOrder
+  module: mockapi
+  feature: create-order
+  category: Boundary
+  service: payment
+
+data:
+  ref:
+    - file: $project/runtime/context/cards.yaml#paid
+      to: value.card
+    - file: $home/data/products.yaml#two
+      to: value.products
+  template:
+    - file: $home/data/template/create-order.template.yaml
+      to: request
+  request:
+    reference: PAY-B-005-{{runId}}
+    merchantId: "{{context.mid}}"
+    amount: 140.0
+    currency: CAD
+
+check:
+  - name: transportCheck
+    assertion:
+      response.statusCode: "200"
+  - name: jsonResponseCheck
+    assertion:
+      amount: "$eq: request.amount"

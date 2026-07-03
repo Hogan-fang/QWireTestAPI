@@ -1,0 +1,34 @@
+profile:
+  name: PAY-S-005
+  title: Response should not contain sensitive fields
+  type: single
+  action: order.createOrder
+  module: mockapi
+  feature: create-order
+  category: Security
+  service: payment
+
+data:
+  ref:
+    - file: $project/runtime/context/cards.yaml#paid
+      to: value.card
+    - file: $home/data/products.yaml#one
+      to: value.products
+  template:
+    - file: $home/data/template/create-order.template.yaml
+      to: request
+  request:
+    reference: PAY-S-005-{{runId}}
+    merchantId: "{{context.mid}}"
+    amount: 120.0
+    currency: CAD
+
+check:
+  - name: transportCheck
+    assertion:
+      response.statusCode: "200"
+  - name: jsonResponseCheck
+    assertion:
+      cvv: "$notExists"
+      expiry: "$notExists"
+      cardholderName: "$notExists"

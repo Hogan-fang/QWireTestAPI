@@ -1,0 +1,29 @@
+profile:
+  name: FLOW-E-001
+  title: Duplicate order flow should return 409 on second submit
+  type: single
+  module: mockapi
+  feature: workflow
+  category: Workflow
+  status: draft-manual
+  service: payment
+
+data:
+  ref:
+    - file: $project/runtime/context/cards.yaml#paid
+      to: value.card
+    - file: $home/data/products.yaml#one
+      to: value.products
+  template:
+    - file: $home/data/template/create-order.template.yaml
+      to: request
+  request:
+    reference: FLOW-E-001-DUP
+    merchantId: "{{context.mid}}"
+    amount: 120.0
+    currency: CAD
+
+check:
+  - name: transportCheck
+    assertion:
+      response.statusCode: "409"

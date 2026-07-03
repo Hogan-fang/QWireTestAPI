@@ -1,6 +1,7 @@
 package com.qwireapi.mockapi.transport;
 
 import io.qwire.context.ExecutionContext;
+import io.qwire.runtime.config.RuntimeProfileContext;
 import io.qwire.transport.HttpRequestSpec;
 import io.qwire.transport.TransportProcessor;
 import io.qwire.transport.TransportRequest;
@@ -21,21 +22,13 @@ public class SimulatedCryptoProcessor implements TransportProcessor {
         Map<String, Object> headers = new LinkedHashMap<>();
         headers.putAll(toMap(spec.headers()));
 
-        Map<String, Object> payload = toMap(spec.payload());
-        String merchantId = stringValue(payload.get("merchantId"));
-        String reference = stringValue(payload.get("reference"));
-        if (merchantId.isEmpty()) {
-            Map<String, Object> query = toMap(spec.queryParams());
-            merchantId = stringValue(query.get("merchantId"));
-            reference = reference.isEmpty() ? stringValue(query.get("reference")) : reference;
-        }
+        String merchantId = stringValue(RuntimeProfileContext.get("mid"));
+        String reference = stringValue(context.getByPath("request.reference")  );
 
-        String keyPath = "context.merchants." + merchantId.toLowerCase() + ".signatureKey";
-        Object signatureKey = context.getByPath(keyPath);
-        if (signatureKey != null && !String.valueOf(signatureKey).isBlank()) {
-            String signature = buildSignature(String.valueOf(signatureKey), merchantId, reference);
-            headers.put("X-Mock-Signature", signature);
-        }
+        String signatureKey = stringValue(RuntimeProfileContext.get("signatureKey"));
+
+        String signature = buildSignature(signatureKey, merchantId, reference);
+        headers.put("X-Mock-Signature", signature);
         headers.putIfAbsent("X-QWire-Simulated-Crypto", "enabled");
 
         HttpRequestSpec rebuilt = HttpRequestSpec.builder()

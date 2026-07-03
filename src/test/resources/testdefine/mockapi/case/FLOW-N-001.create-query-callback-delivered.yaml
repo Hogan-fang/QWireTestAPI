@@ -9,13 +9,13 @@ profile:
 
 data:
   ref:
-    - file: ../../../../../../runtime/context/cards.yaml#paid
+    - file: $project/runtime/context/cards.yaml#paid
       to: value.card
-    - file: ../data/products.yaml#one
+    - file: $home/data/products.yaml#one
       to: value.products
 
   template:
-    - file: ../template/create-order.template.yaml
+    - file: $home/data/template/create-order.template.yaml
       to: request
 
   request:

@@ -15,7 +15,7 @@ data:
       to: value.products
 
   template:
-    - file: ../template/create-order.template.yaml
+    - file: ../data/template/create-order.template.yaml
       to: request
 
   request:
